@@ -71,4 +71,12 @@ public class InputManager : MonoBehaviour
             handler.SwitchGun();
         }
     }
+
+    public void OnDodge(CallbackContext context)
+    {
+        if (context.started)
+        {
+            handler.Dodge();
+        }
+    }
 }

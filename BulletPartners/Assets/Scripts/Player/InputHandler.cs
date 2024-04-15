@@ -5,6 +5,9 @@ using UnityEngine.InputSystem.HID;
 
 public class InputHandler : MonoBehaviour
 {
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+
     [SerializeField] private float moveSpeed = 5f;
 
     [SerializeField] private int playerIndex = 0;
@@ -12,13 +15,17 @@ public class InputHandler : MonoBehaviour
     private Vector3 moveDirection;
     private Vector2 movement;
 
+    [Header("Dodge")]
+    [SerializeField] private float dodgeLength;
+    [SerializeField] private float iFrameTime;
+
     public bool hasMouse;
     private Vector3 rotationDirection;
     private Vector2 rotation;
     public Vector2 mouseRot;
     public RaycastHit mouseHit;
 
-    private Rigidbody rb;
+
 
     [Header("Gun")]
     public bool shooting;
@@ -36,6 +43,7 @@ public class InputHandler : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
         uiManager = GetComponent<PlayerUIManager>();
 
         FindOtherPlayer();
@@ -105,6 +113,22 @@ public class InputHandler : MonoBehaviour
         otherPlayer = allPlayers[0];
     }
 
+    ///Dodge functionallity
+    public void Dodge()
+    {
+        rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
+        capsuleCollider.enabled = false;
+        if(capsuleCollider.enabled == false)
+        {
+            Invoke(nameof(IFrameReset), iFrameTime);
+        }
+    }
+
+    private void IFrameReset()
+    {
+        capsuleCollider.enabled = true;
+    }
+
     private void Update()
     {
         if(otherPlayer != null)
@@ -138,10 +162,11 @@ public class InputHandler : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * 40);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            SwitchGun();
+            Dodge();
         }
+
         Shoot();
     }
 }

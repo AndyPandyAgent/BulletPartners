@@ -7,12 +7,16 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform attackPoint;
+    private Rigidbody playerRb;
+    private S_Camera cam;
 
     [SerializeField] private float spread;
     [SerializeField] private float cooldown;
     [SerializeField] private float reloadTime;
     [SerializeField] private float shootForce;
     [SerializeField] private float damage;
+    [SerializeField] private float recoilForce;
+    [SerializeField] private float shakeForce;
     [SerializeField] private bool reloading;
     [SerializeField] private bool canShoot;
     [SerializeField] private int bulletsPerShot;
@@ -22,6 +26,8 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         currentBullets = bulletsPerMag;
+        playerRb= GetComponentInParent<Rigidbody>();
+        cam = FindAnyObjectByType<S_Camera>();
     }
 
     public void Shoot()
@@ -44,6 +50,12 @@ public class Gun : MonoBehaviour
                 firedBullet.GetComponent<Rigidbody>().AddForce(dirWithSpread.normalized * shootForce, ForceMode.Impulse);
                 firedBullet.GetComponent<Bullet>().bulletDamage = damage;
 
+                Recoil();
+
+                Transform shakeTrans = transform;
+
+                cam.ScreenShake(dir, transform, shakeForce);
+
                 currentBullets--;
             }
 
@@ -56,6 +68,11 @@ public class Gun : MonoBehaviour
             reloading = true;
         }
 
+    }
+
+    private void Recoil()
+    {
+        playerRb.AddForce(-transform.right * recoilForce * 100);
     }
 
     private void ResetShot()

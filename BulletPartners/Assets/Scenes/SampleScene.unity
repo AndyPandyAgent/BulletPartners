@@ -1049,8 +1049,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3faf39b87b971214f8d4f7433cf8529d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 137703961262844325}
-  player2: {fileID: 2122080126}
+  initialPlayers: []
+  playerList: []
+  center: {x: 0, y: 0, z: 0}
   maxY: 25
   minY: 15
   yModifier: 1
@@ -1968,6 +1969,7 @@ MonoBehaviour:
   damage: 20
   bossState: 0
   planeObject: {fileID: 1844793312}
+  holdingScythe: {fileID: 993411665698795138}
   rotateSpeed: 6
   moveSpeed: 0
   throwPoint: {fileID: 1058728784}
@@ -1987,6 +1989,9 @@ MonoBehaviour:
   health: 0
   maxHealth: 2000
   healthBar: {fileID: 1964395895}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1755078647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,6 +2626,7 @@ GameObject:
   - component: {fileID: 2122080127}
   - component: {fileID: 2122080133}
   - component: {fileID: 2122080134}
+  - component: {fileID: 2122080135}
   m_Layer: 0
   m_Name: Dude (1)
   m_TagString: Player
@@ -2642,6 +2648,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   playerIndex: 1
+  dodgeLength: 2
+  iFrameTime: 1
   hasMouse: 0
   mouseRot: {x: 0, y: 0}
   shooting: 0
@@ -2787,6 +2795,21 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   healthBar: {fileID: 957382151}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2122080135}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2122080134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2801,6 +2824,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 0}
   ammoUI: {fileID: 1621275955}
+--- !u!114 &2122080135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122080126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf365d55e696a9a41a05531eca7accbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
 --- !u!1 &137703961262844325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,6 +2853,7 @@ GameObject:
   - component: {fileID: 6769121425245585747}
   - component: {fileID: 6769121425245585748}
   - component: {fileID: 6769121425245585749}
+  - component: {fileID: 6769121425245585750}
   m_Layer: 0
   m_Name: Dude
   m_TagString: Player
@@ -3813,6 +3850,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   playerIndex: 0
+  dodgeLength: 100
+  iFrameTime: 0.1
   hasMouse: 0
   mouseRot: {x: 0, y: 0}
   shooting: 0
@@ -3840,6 +3879,21 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   healthBar: {fileID: 1935865565}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6769121425245585750}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6769121425245585749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3854,6 +3908,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 0}
   ammoUI: {fileID: 142142955}
+--- !u!114 &6769121425245585750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137703961262844325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf365d55e696a9a41a05531eca7accbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
 --- !u!33 &6785719665547121618
 MeshFilter:
   m_ObjectHideFlags: 0

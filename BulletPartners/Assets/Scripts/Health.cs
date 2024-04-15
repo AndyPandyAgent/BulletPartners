@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
@@ -8,6 +9,8 @@ public class Health : MonoBehaviour
     public float health;
     public float maxHealth;
     public Slider healthBar;
+
+    public UnityEvent deathEvent;
 
     private void Awake()
     {
@@ -35,7 +38,7 @@ public class Health : MonoBehaviour
 
         if(health <= 0)
         {
-            Die();
+            deathEvent.Invoke();
         }
     }
 

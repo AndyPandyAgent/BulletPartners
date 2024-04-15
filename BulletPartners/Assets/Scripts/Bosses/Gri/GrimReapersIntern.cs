@@ -23,6 +23,7 @@ public class GrimReapersIntern : MonoBehaviour
     private Vector3 walkPoint;
 
     [Header("SpinToPos")]
+    [SerializeField] private GameObject holdingScythe;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float moveSpeed;
     private bool hasWalkpoint;
@@ -99,6 +100,7 @@ public class GrimReapersIntern : MonoBehaviour
             hasWalkpoint = true;
         }
 
+        holdingScythe.transform.rotation.SetEulerRotation(90, 0, 0);
 
         agent.destination = walkPoint;
         transform.Rotate(0, rotateSpeed, 0);

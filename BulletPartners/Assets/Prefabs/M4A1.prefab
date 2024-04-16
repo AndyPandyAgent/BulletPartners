@@ -499,11 +499,6 @@ MonoBehaviour:
   reloadTime: 2
   shootForce: 20
   damage: 15
-<<<<<<< Updated upstream
-=======
-  recoilForce: 6
-  shakeForce: 0.5
->>>>>>> Stashed changes
   reloading: 0
   canShoot: 1
   bulletsPerShot: 1

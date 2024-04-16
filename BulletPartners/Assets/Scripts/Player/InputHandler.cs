@@ -5,6 +5,13 @@ using UnityEngine.InputSystem.HID;
 
 public class InputHandler : MonoBehaviour
 {
+<<<<<<< Updated upstream
+=======
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+    public Rubberband rubberband;
+
+>>>>>>> Stashed changes
     [SerializeField] private float moveSpeed = 5f;
 
     [SerializeField] private int playerIndex = 0;
@@ -12,14 +19,25 @@ public class InputHandler : MonoBehaviour
     private Vector3 moveDirection;
     private Vector2 movement;
 
+<<<<<<< Updated upstream
+=======
+    [Header("Dodge")]
+    [SerializeField] private float dodgeLength;
+    [SerializeField] private float iFrameTime;
+    public bool isFlying;
+
+>>>>>>> Stashed changes
     public bool hasMouse;
     private Vector3 rotationDirection;
     private Vector2 rotation;
     public Vector2 mouseRot;
     public RaycastHit mouseHit;
 
+<<<<<<< Updated upstream
     private Rigidbody rb;
 
+=======
+>>>>>>> Stashed changes
     [Header("Gun")]
     public bool shooting;
     public List<GameObject> guns;
@@ -28,15 +46,14 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private Transform gunSpawn;
     private PlayerUIManager uiManager;
 
-    [SerializeField] private GameObject otherPlayer;
     [SerializeField] private List<GameObject> allPlayers;
-    [SerializeField] private float maxDist;
-    [SerializeField] private float pullSpeed;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         uiManager = GetComponent<PlayerUIManager>();
+        isFlying = false;
 
         FindOtherPlayer();
 
@@ -101,21 +118,35 @@ public class InputHandler : MonoBehaviour
             allPlayers.Add(player);
         }
 
-        allPlayers.Remove(gameObject);
-        otherPlayer = allPlayers[0];
     }
 
+<<<<<<< Updated upstream
+=======
+    ///Dodge functionallity
+    public void Dodge()
+    {
+        rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
+        capsuleCollider.enabled = false;
+        rubberband.DodgeLeap(playerIndex);
+        if(capsuleCollider.enabled == false)
+        {
+            Invoke(nameof(IFrameReset), iFrameTime);
+        }
+    }
+
+    private void IFrameReset()
+    {
+        capsuleCollider.enabled = true;
+    }
+
+>>>>>>> Stashed changes
     private void Update()
     {
-        if(otherPlayer != null)
-        {
-            if (Vector3.Distance(transform.position, otherPlayer.transform.position) > maxDist)
-            {
-                rb.AddForce((otherPlayer.transform.position - transform.position) * pullSpeed);
-            }
-        }
         moveDirection = new Vector3(movement.x, 0, movement.y);
-        rb.velocity = moveDirection * moveSpeed;
+        if (!isFlying)
+        {
+            rb.velocity = moveDirection * moveSpeed;
+        }
 
         if (hasMouse)
         {

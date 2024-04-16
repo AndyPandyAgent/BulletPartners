@@ -14,6 +14,25 @@ public class S_Camera : MonoBehaviour
     [SerializeField] private float yModifier;
     [SerializeField] private float zOffset;
 
+<<<<<<< Updated upstream
+=======
+    private Vector3 shakeVector;
+    private bool isShaking;
+
+    private void Awake()
+    {
+        initialPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in initialPlayers)
+        {
+            playerList.Add(player);
+        }
+        isShaking = false;
+
+        
+    }
+
+>>>>>>> Stashed changes
     private void Update()
     {
         if (player1 != null && player2 != null)
@@ -33,8 +52,16 @@ public class S_Camera : MonoBehaviour
                 distance = maxY;
             }
 
+<<<<<<< Updated upstream
             transform.position = Vector3.Lerp(transform.position ,new Vector3(center.x, distance, center.z + zOffset), Time.deltaTime * 4);
             transform.LookAt(center);
+=======
+            transform.position = Vector3.Lerp(transform.position, new Vector3(center.x, distance, center.z + zOffset), Time.deltaTime * 100);
+
+            //Line renderer
+
+
+>>>>>>> Stashed changes
         }
 
         if(player1 != null && player2 == null)
@@ -49,4 +76,19 @@ public class S_Camera : MonoBehaviour
         }
 
     }
+<<<<<<< Updated upstream
+=======
+
+    public void ScreenShake(Vector3 dir, Transform trans, float forceMultiplier)
+    {
+        isShaking = true;
+        center += -dir * forceMultiplier + new Vector3(Random.Range(0, 0.15f), 0, Random.Range(0,0.15f));
+        Invoke(nameof(ShakeVectorReset), 0.1f);
+    }
+
+    private void ShakeVectorReset()
+    {
+        isShaking = false;
+    }
+>>>>>>> Stashed changes
 }

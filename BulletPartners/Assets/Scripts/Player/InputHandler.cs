@@ -14,6 +14,7 @@ public class InputHandler : MonoBehaviour
 
     private Vector3 moveDirection;
     private Vector2 movement;
+    public bool isFlying;
 
     [Header("Dodge")]
     [SerializeField] private float dodgeLength;
@@ -131,15 +132,12 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        if(otherPlayer != null)
+        if (!isFlying)
         {
-            if (Vector3.Distance(transform.position, otherPlayer.transform.position) > maxDist)
-            {
-                rb.AddForce((otherPlayer.transform.position - transform.position) * pullSpeed);
-            }
+            moveDirection = new Vector3(movement.x, 0, movement.y);
+            rb.velocity = moveDirection * moveSpeed;
         }
-        moveDirection = new Vector3(movement.x, 0, movement.y);
-        rb.velocity = moveDirection * moveSpeed;
+
 
         if (hasMouse)
         {

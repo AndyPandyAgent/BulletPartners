@@ -1093,13 +1093,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4681871, y: -0, z: -0, w: 0.88362944}
+  m_LocalRotation: {x: 0.57521945, y: 0, z: 0, w: 0.8179992}
   m_LocalPosition: {x: 8.29, y: 14.85, z: -7.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 55.833, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 70.23, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1115,8 +1115,8 @@ MonoBehaviour:
   initialPlayers: []
   playerList: []
   center: {x: 0, y: 0, z: 0}
-  maxY: 25
-  minY: 15
+  maxY: 35
+  minY: 30
   yModifier: 1
   zOffset: -6
 --- !u!114 &963194230
@@ -2187,12 +2187,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 1631149147}
-  pullForce: 3
-  leapForce: 10
+  pullForce: 2
+  leapForce: 8
   dragValue: 0
   breakColor: {fileID: 2100000, guid: 382f5f5f53998b34d9c48113ab54eeef, type: 2}
   normalColor: {fileID: 2100000, guid: 551034578890de04985de3230e40499b, type: 2}
-  breakValue: 10
+  breakValue: 5
   breakTimer: 4
 --- !u!4 &1631149149
 Transform:
@@ -3008,6 +3008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8ef83ae180eb741897d087a7009b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rubberband: {fileID: 1631149148}
   moveSpeed: 5
   playerIndex: 1
   isFlying: 0
@@ -4424,11 +4425,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8ef83ae180eb741897d087a7009b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rubberband: {fileID: 1631149148}
   moveSpeed: 5
   playerIndex: 0
   isFlying: 0
-  dodgeLength: 0
-  iFrameTime: 0
+  dodgeLength: 20
+  iFrameTime: 0.1
   hasMouse: 0
   mouseRot: {x: 0, y: 0}
   shooting: 0

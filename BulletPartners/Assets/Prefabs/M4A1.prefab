@@ -505,7 +505,7 @@ MonoBehaviour:
   canShoot: 1
   bulletsPerShot: 1
   bulletsPerMag: 30
-  currentBullets: 0
+  currentBullets: 30
 --- !u!1 &7375356772710383503
 GameObject:
   m_ObjectHideFlags: 0

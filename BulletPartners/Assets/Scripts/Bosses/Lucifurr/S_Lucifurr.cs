@@ -59,6 +59,7 @@ public class S_Lucifurr : MonoBehaviour
     {
         int random = Random.Range(0, functions.Length);
         functions[random].Invoke();
+        print("RandomEvent");
     }
 
     private void GoingUp()
@@ -130,15 +131,20 @@ public class S_Lucifurr : MonoBehaviour
 
     IEnumerator Brain()
     {
-        PickRandomEvent();
-        yield return new WaitForSeconds(5);
-        StartCoroutine(Brain());
+        while (true)
+        {
+            PickRandomEvent();
+            print("Brain");
+            yield return new WaitForSeconds(10);
+        }
+
     }
 
     IEnumerator Leap()
     {
         isGoingUp = true;
         isGoingDown = false;
+        hasReturn = false;
         yield return new WaitForSeconds(returnTimer);
         isGoingDown = true;
         isGoingUp = false;

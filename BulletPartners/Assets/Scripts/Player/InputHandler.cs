@@ -7,6 +7,7 @@ public class InputHandler : MonoBehaviour
 {
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
+    [SerializeField] private Rubberband rubberband;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -119,6 +120,7 @@ public class InputHandler : MonoBehaviour
     {
         rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
         capsuleCollider.enabled = false;
+        rubberband.DodgeLeap(playerIndex);
         if(capsuleCollider.enabled == false)
         {
             Invoke(nameof(IFrameReset), iFrameTime);

@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63a169b2653c974dae8c4c54135afea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 20
+  lifeTime: 5
   bulletDamage: 0
 --- !u!114 &-2174120705844554917
 MonoBehaviour:
@@ -162,3 +162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growthSpeed: 1.005
+  maxGrowth: 10

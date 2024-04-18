@@ -103,9 +103,17 @@ public class Rubberband : MonoBehaviour
     {
         if (index == 0 && distanceBetweenPlayers > breakValue)
         {
-            p2rb.AddForce((playerList[0].transform.position - playerList[1].transform.position) * leapForce, ForceMode.Impulse);
+            p2rb.AddForce((playerList[1].transform.position - playerList[0].transform.position) * leapForce, ForceMode.Impulse);
+            p1rb.AddForce((playerList[1].transform.position - playerList[0].transform.position) * leapForce, ForceMode.Impulse);
             playerList[1].GetComponent<InputHandler>().isFlying = true;
             playerList[0].GetComponent<InputHandler>().isFlying = true;
+            Invoke(nameof(DodgeLeapReset), 0.6f);
         }
+    }
+
+    private void DodgeLeapReset()
+    {
+        playerList[1].GetComponent<InputHandler>().isFlying = false;
+        playerList[0].GetComponent<InputHandler>().isFlying = false;
     }
 }

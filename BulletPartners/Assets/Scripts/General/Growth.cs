@@ -5,9 +5,11 @@ using UnityEngine;
 public class Growth : MonoBehaviour
 {
     public float growthSpeed;
+    public float maxGrowth;
 
     private void Update()
     {
-        transform.localScale = transform.localScale * growthSpeed;
+        if(transform.localScale.y < maxGrowth)
+            transform.localScale = transform.localScale * growthSpeed;
     }
 }

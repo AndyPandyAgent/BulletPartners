@@ -23,7 +23,7 @@ public class SpawnerManager : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(cam.center.x, transform.position.y, cam.center.z);
+        transform.position = new Vector3(cam.center.x, 2, cam.center.z);
     }
 
     void SpawnObjectAround()

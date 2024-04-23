@@ -500,7 +500,7 @@ MonoBehaviour:
   shootForce: 20
   damage: 15
   recoilForce: 6
-  shakeForce: 1
+  shakeForce: 0.2
   reloading: 0
   canShoot: 1
   bulletsPerShot: 1

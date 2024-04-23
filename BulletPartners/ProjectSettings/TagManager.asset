@@ -15,6 +15,7 @@ TagManager:
   - GameManager
   - WinCanvas
   - Sheild
+  - Lose
   layers:
   - Default
   - TransparentFX

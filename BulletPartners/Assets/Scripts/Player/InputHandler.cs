@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 
@@ -8,6 +9,7 @@ public class InputHandler : MonoBehaviour
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
     [SerializeField] private Rubberband rubberband;
+    private S_GameManager gameManager;
 
     [SerializeField] private float moveSpeed = 5f;
 
@@ -27,8 +29,6 @@ public class InputHandler : MonoBehaviour
     public Vector2 mouseRot;
     public RaycastHit mouseHit;
 
-
-
     [Header("Gun")]
     public bool shooting;
     public List<GameObject> guns;
@@ -36,6 +36,11 @@ public class InputHandler : MonoBehaviour
     private int currentGunSlot;
     [SerializeField] private Transform gunSpawn;
     private PlayerUIManager uiManager;
+
+    [Header("Death")]
+    [SerializeField] private float respawnTime;
+    [SerializeField] private GameObject tombstone;
+    private GameObject newTombestone;
 
     [SerializeField] private GameObject otherPlayer;
     [SerializeField] private List<GameObject> allPlayers;
@@ -46,6 +51,7 @@ public class InputHandler : MonoBehaviour
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
         rubberband = FindAnyObjectByType<Rubberband>();
+        gameManager = FindAnyObjectByType<S_GameManager>();
 
         if (objs.Length > 2)
         {
@@ -81,7 +87,7 @@ public class InputHandler : MonoBehaviour
 
     public void Shoot()
     {
-        if (shooting && currentGun != null)
+        if (shooting && currentGun != null && !isFlying)
         {
             currentGun.GetComponent<Gun>().Shoot();
         }
@@ -154,6 +160,24 @@ public class InputHandler : MonoBehaviour
     private void ResetFlying()
     {
         isFlying = false;
+    }
+
+    public void Death()
+    {
+        GameObject currentTombstone = Instantiate(tombstone, transform.position, Quaternion.identity);
+        currentTombstone.GetComponent<Tombstone>().SetTimer(respawnTime);
+        newTombestone = currentTombstone;
+        gameObject.SetActive(false);
+        Invoke(nameof(Respawn), respawnTime);
+        gameManager.playersAlive--;
+    }
+
+    private void Respawn()
+    {
+        gameObject.SetActive(true);
+        Destroy(newTombestone);
+        GetComponent<Health>().health = GetComponent<Health>().maxHealth;
+        gameManager.playersAlive++;
     }
 
     private void Update()

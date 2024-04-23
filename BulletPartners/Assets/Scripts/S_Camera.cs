@@ -61,7 +61,7 @@ public class S_Camera : MonoBehaviour
     public void ScreenShake(Vector3 dir, Transform trans, float forceMultiplier)
     {
         isShaking = true;
-        center += -dir * forceMultiplier + new Vector3(Random.Range(0, 0.3f), 0, Random.Range(0,0.3f));
+        center += -dir * forceMultiplier + new Vector3(Random.Range(0, 0.01f), 0, Random.Range(0,0.01f));
         Invoke(nameof(ShakeVectorReset), 0.1f);
     }
 

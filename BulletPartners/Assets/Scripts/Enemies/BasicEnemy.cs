@@ -17,6 +17,7 @@ public class BasicEnemy : MonoBehaviour
     private void Awake()
     {
         gameManager = FindAnyObjectByType<S_GameManager>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -25,7 +26,8 @@ public class BasicEnemy : MonoBehaviour
 
         GetClosestPlayer();
 
-        rb.velocity = transform.position - closestPlayer.transform.position * movementSpeed;
+        transform.LookAt(closestPlayer.transform.position);
+        rb.velocity = transform.forward * movementSpeed;
     }
 
     private void GetClosestPlayer()

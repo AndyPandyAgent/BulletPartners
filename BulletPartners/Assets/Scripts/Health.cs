@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,9 +14,18 @@ public class Health : MonoBehaviour
 
     public UnityEvent deathEvent;
 
+    [SerializeField] private bool isBoss;
+    [SerializeField] private string bossName;
+
     private void Awake()
     {
         health = maxHealth;
+        if (isBoss)
+        {
+            GameObject bossUI = GameObject.FindGameObjectWithTag("BossUI");
+            healthBar = bossUI.GetComponentInChildren<Slider>();
+            bossUI.GetComponentInChildren<TextMeshProUGUI>().text = bossName;
+        }
     }
 
     public void SubtractHealth(float amount)

@@ -7,6 +7,7 @@ public class Rubberband : MonoBehaviour
 {
     private Rigidbody p1rb;
     private Rigidbody p2rb;
+    private S_GameManager gameManager;
 
     public LineRenderer lineRenderer;
     private Material lineColor;
@@ -30,11 +31,16 @@ public class Rubberband : MonoBehaviour
     private bool hasBeginBreak;
     private bool hasFoundDistance;
 
+    [Header("BreakValues")]
+    [SerializeField] private float concussionTime;
+
 
     private void Awake()
     {
-        playerList = FindObjectOfType<S_Camera>().playerList;
+        gameObject.SetActive(true);
+        gameManager = FindAnyObjectByType<S_GameManager>();
         lineRenderer = GetComponent<LineRenderer>();
+        playerList = gameManager.playerList;
 
         p1rb = playerList[0].GetComponent<Rigidbody>();
         p2rb = playerList[1].GetComponent<Rigidbody>();
@@ -42,6 +48,8 @@ public class Rubberband : MonoBehaviour
 
     private void Update()
     {
+        playerList = gameManager.playerList;
+
         lineRenderer.SetPosition(0, playerList[0].transform.position);
         lineRenderer.SetPosition(1, playerList[1].transform.position);
 
@@ -95,8 +103,15 @@ public class Rubberband : MonoBehaviour
 
     private void BreakLine()
     {
-        print("Line Broke");
         gameObject.SetActive(false);
+
+        foreach (var player in playerList)
+        {
+            player.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            player.GetComponent<InputHandler>().isFlying = true;
+        }
+
+        Invoke(nameof(BreakReset), concussionTime);
     }
 
     public void DodgeLeap(int index)
@@ -115,5 +130,14 @@ public class Rubberband : MonoBehaviour
     {
         playerList[1].GetComponent<InputHandler>().isFlying = false;
         playerList[0].GetComponent<InputHandler>().isFlying = false;
+    }
+
+    private void BreakReset()
+    {
+        gameObject.SetActive(true);
+        foreach (var player in playerList)
+        {
+            player.GetComponent<InputHandler>().isFlying = false;
+        }
     }
 }

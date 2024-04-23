@@ -5,7 +5,9 @@ using UnityEngine.Events;
 
 public class S_Lucifurr : MonoBehaviour
 {
-    private GameObject[] players;
+    [SerializeField] private S_GameManager gameManager;
+
+    private List <GameObject> players;
     private GameObject closestPlayer;
     public UnityEvent[] functions;
 
@@ -15,11 +17,14 @@ public class S_Lucifurr : MonoBehaviour
     public GameObject planeObject;
     [SerializeField] private Transform jumpPos;
     [SerializeField] private float returnTimer;
+    [SerializeField] private GameObject landMarker;
+    [SerializeField] private int bulletAmount;
+    [SerializeField] private GameObject bulletPrefab;
     private float planeSizeX;
     private float planeSizeZ;
     private Vector3 planeCenter;
     private float startingY;
-    private Vector3 returnPos;
+    [SerializeField] private Vector3 returnPos;
     private bool hasReturn;
 
     [Header("Furrball")]
@@ -32,7 +37,7 @@ public class S_Lucifurr : MonoBehaviour
 
     private void Awake()
     {
-        players = GameObject.FindGameObjectsWithTag("Player");
+        gameManager = FindAnyObjectByType<S_GameManager>();
 
         startingY = transform.position.y;
 
@@ -41,11 +46,15 @@ public class S_Lucifurr : MonoBehaviour
         planeSizeX = planeObject.transform.localScale.x;
         planeSizeZ = planeObject.transform.localScale.z;
 
+        hasReturn = false;
+
         StartCoroutine(Brain());
     }
 
     private void Update()
     {
+        players = gameManager.playerList;
+
         if(isGoingDown)
             GoingDown();
         if (isGoingUp)
@@ -65,29 +74,47 @@ public class S_Lucifurr : MonoBehaviour
     private void GoingUp()
     {
         transform.position = Vector3.MoveTowards(transform.position, jumpPos.position, Time.deltaTime * 40);
+        if (!hasReturn)
+        {
+            returnPos = GetRandomPlayer();
+            Instantiate(landMarker, returnPos, Quaternion.identity);
+            hasReturn = true;
+        }
     }
 
     private void GoingDown()
     {
-        if (!hasReturn)
-        {
-            returnPos = GetRandomPositionOnPlane();
-            hasReturn = true;
-        }
-
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(returnPos.x, startingY, returnPos.z), Time.deltaTime * 40);
     }
 
-    Vector3 GetRandomPositionOnPlane()
+    private void Landed()
     {
-        float randomX = Random.Range(-planeSizeX / 2f, planeSizeX / 2f);
-        float randomZ = Random.Range(-planeSizeZ / 2f, planeSizeZ / 2f);
+        float angleStep = 360f / bulletAmount;
+        float angle = 0f;
 
-        Vector3 randomPosition = planeCenter +
-                                 planeObject.transform.right * randomX +
-                                 planeObject.transform.forward * randomZ;
+        for (int i = 0; i < bulletAmount; i++)
+        {
+            float bulletDirX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180);
+            float bulletDirZ = transform.position.z + Mathf.Cos((angle * Mathf.PI) / 180);
 
-        return randomPosition;
+            Vector3 bulletVector = new Vector3(bulletDirX, transform.position.y, bulletDirZ);
+            Vector3 bulletDir = (bulletVector - transform.position).normalized;
+
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bullet.GetComponent<Rigidbody>().velocity = bulletDir * 10f;
+
+            angle += angleStep;
+            print("PEW");
+        }
+    }
+
+    Vector3 GetRandomPlayer()
+    {
+        int randomNumber = Random.Range(0, players.Count);
+
+        Vector3 randomPos = players[randomNumber].gameObject.transform.position;
+
+        return randomPos;
     }
 
     private void Shoot()
@@ -106,7 +133,7 @@ public class S_Lucifurr : MonoBehaviour
         float lowestDist = Mathf.Infinity;
 
 
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Count; i++)
         {
 
             float dist = Vector3.Distance(players[i].transform.position, transform.position);
@@ -144,10 +171,12 @@ public class S_Lucifurr : MonoBehaviour
     {
         isGoingUp = true;
         isGoingDown = false;
-        hasReturn = false;
         yield return new WaitForSeconds(returnTimer);
         isGoingDown = true;
         isGoingUp = false;
+        hasReturn = false;
+        yield return new WaitForSeconds(0.5f);
+        Landed();
     }
 
     IEnumerator Furrball()

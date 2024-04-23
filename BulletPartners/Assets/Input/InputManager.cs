@@ -18,6 +18,16 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Input");
+
+        if (objs.Length > 2)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+
+
         _playerInput = GetComponent<PlayerInput>();
 
         var movers = FindObjectsOfType<InputHandler>();

@@ -6,6 +6,15 @@ TagManager:
   tags:
   - Bullet
   - Boss
+  - UI
+  - Input
+  - InputOBJ
+  - EventSystem
+  - BossUI
+  - Rubberband
+  - GameManager
+  - WinCanvas
+  - Sheild
   layers:
   - Default
   - TransparentFX

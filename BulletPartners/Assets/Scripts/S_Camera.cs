@@ -9,10 +9,9 @@ public class S_Camera : MonoBehaviour
     [HideInInspector] public GameObject[] initialPlayers;
     [HideInInspector] public List<GameObject> playerList;
 
-    [SerializeField] private Vector3 center;
+    [SerializeField] public Vector3 center;
 
     [SerializeField] private float maxY;
-    [SerializeField] private float minY;
 
     [SerializeField] private float yModifier;
     [SerializeField] private float zOffset;
@@ -43,21 +42,7 @@ public class S_Camera : MonoBehaviour
                 center = sum / 2;
             }
 
-            float distance = Vector3.Distance(playerList[0].transform.position, playerList[1].transform.position);
-            distance = distance * yModifier;
-
-            if (distance < minY)
-            {
-                distance = minY;
-            }
-            else if (distance > maxY)
-            {
-                distance = maxY;
-            }
-
-
-
-            transform.position = Vector3.Lerp(transform.position, new Vector3(center.x, distance, center.z + zOffset), Time.deltaTime * 100);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(center.x, maxY, center.z + zOffset), Time.deltaTime * 100);
 
         }
 
@@ -68,7 +53,7 @@ public class S_Camera : MonoBehaviour
                 center = playerList[0].transform.position;
             }
 
-            transform.position = Vector3.Lerp(transform.position, new Vector3(center.x, minY, center.z + zOffset), Time.deltaTime * 100);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(center.x, maxY, center.z + zOffset), Time.deltaTime * 100);
         }
 
     }

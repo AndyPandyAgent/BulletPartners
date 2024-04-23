@@ -9,6 +9,7 @@ public class GrimReapersIntern : MonoBehaviour
     public GameObject scythe;
     public GameObject throwScythe;
     [SerializeField] private float damage;
+    private Transform startSytcheTransform;
 
     [SerializeField] private int bossState;
     private bool spinToPos;
@@ -24,6 +25,7 @@ public class GrimReapersIntern : MonoBehaviour
 
     [Header("SpinToPos")]
     [SerializeField] private GameObject holdingScythe;
+    [SerializeField] private GameObject rotatePoint;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float moveSpeed;
     private bool hasWalkpoint;
@@ -40,6 +42,8 @@ public class GrimReapersIntern : MonoBehaviour
 
     private void Awake()
     {
+        startSytcheTransform = holdingScythe.transform;
+
         StartCoroutine(Brain());
 
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -89,6 +93,13 @@ public class GrimReapersIntern : MonoBehaviour
         if (spinToPos)
         {
             SpinToPos();
+            holdingScythe.transform.position = rotatePoint.transform.position;
+            holdingScythe.transform.rotation = rotatePoint.transform.rotation;
+        }
+        else
+        {
+            holdingScythe.transform.position = startSytcheTransform.position;
+            holdingScythe.transform.rotation = startSytcheTransform.rotation;
         }
     }
 
@@ -100,7 +111,6 @@ public class GrimReapersIntern : MonoBehaviour
             hasWalkpoint = true;
         }
 
-        holdingScythe.transform.rotation.SetEulerRotation(90, 0, 0);
 
         agent.destination = walkPoint;
         transform.Rotate(0, rotateSpeed, 0);
@@ -188,7 +198,7 @@ public class GrimReapersIntern : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             ThrowScythe();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
 
     }

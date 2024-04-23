@@ -44,6 +44,16 @@ public class InputHandler : MonoBehaviour
 
     private void Awake()
     {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
+        rubberband = FindAnyObjectByType<Rubberband>();
+
+        if (objs.Length > 2)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         uiManager = GetComponent<PlayerUIManager>();
@@ -118,18 +128,32 @@ public class InputHandler : MonoBehaviour
     ///Dodge functionallity
     public void Dodge()
     {
-        rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
-        capsuleCollider.enabled = false;
-        rubberband.DodgeLeap(playerIndex);
-        if(capsuleCollider.enabled == false)
+        if (!isFlying)
         {
-            Invoke(nameof(IFrameReset), iFrameTime);
+            rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
+            capsuleCollider.enabled = false;
+            rubberband.DodgeLeap(playerIndex);
+            if (capsuleCollider.enabled == false)
+            {
+                Invoke(nameof(IFrameReset), iFrameTime);
+            }
         }
     }
 
     private void IFrameReset()
     {
         capsuleCollider.enabled = true;
+    }
+
+    public void SetFlying(float time)
+    {
+        isFlying = true;
+        Invoke(nameof(ResetFlying), time);
+    }
+
+    private void ResetFlying()
+    {
+        isFlying = false;
     }
 
     private void Update()
@@ -160,11 +184,6 @@ public class InputHandler : MonoBehaviour
             targetRot *= Quaternion.Euler(0, 90, 0);
 
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * 40);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Dodge();
         }
 
         Shoot();

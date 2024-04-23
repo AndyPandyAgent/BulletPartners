@@ -23,5 +23,9 @@ public class Bullet : MonoBehaviour
             print(other.GetComponent<Health>().health);
             DestroySelf();
         }
+        if(other.tag == "Sheild")
+        {
+            DestroySelf();
+        }
     }
 }

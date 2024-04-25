@@ -5,6 +5,7 @@ using UnityEngine;
 public class Melee : MonoBehaviour
 {
     [SerializeField] private float knockbackForce;
+    [SerializeField] private float flyTime;
     [SerializeField] private float damage;
 
     private void OnCollisionEnter(Collision collision)
@@ -12,6 +13,7 @@ public class Melee : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             Attack(collision.gameObject, damage);
+            collision.transform.GetComponent<InputHandler>().SetFlying(flyTime);
         }
     }
 

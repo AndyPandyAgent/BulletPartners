@@ -201,6 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 50
   bulletDamage: 0
+  tags:
+  - Player
 --- !u!1 &5200496657935917745
 GameObject:
   m_ObjectHideFlags: 0

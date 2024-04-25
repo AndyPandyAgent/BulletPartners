@@ -9,10 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 631c7ffe6b791cf439c0ef28a16fe1bf
   - enabled: 1
+    path: Assets/Scenes/Boss2.unity
+    guid: 782e6b0fae10afa40ba5b7f3873c340f
+  - enabled: 1
     path: Assets/Scenes/Boss1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Boss2.unity
-    guid: 782e6b0fae10afa40ba5b7f3873c340f
+    path: Assets/Scenes/WIn.unity
+    guid: d11b0b2069f38354fa2ed862ad2dfcc9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: b18e67082ec9fbc4aa18a1be0f94a483, type: 2}

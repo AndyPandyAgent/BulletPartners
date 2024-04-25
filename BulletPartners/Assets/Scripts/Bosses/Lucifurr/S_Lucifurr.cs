@@ -10,6 +10,7 @@ public class S_Lucifurr : MonoBehaviour
     private List <GameObject> players;
     private GameObject closestPlayer;
     public UnityEvent[] functions;
+    private Rigidbody rb;
 
     [Header("Leap")]
     public bool isGoingUp;
@@ -20,12 +21,10 @@ public class S_Lucifurr : MonoBehaviour
     [SerializeField] private GameObject landMarker;
     [SerializeField] private int bulletAmount;
     [SerializeField] private GameObject bulletPrefab;
-    private float planeSizeX;
-    private float planeSizeZ;
-    private Vector3 planeCenter;
     private float startingY;
     [SerializeField] private Vector3 returnPos;
     private bool hasReturn;
+    [SerializeField] private float lilDamage;
 
     [Header("Furrball")]
     [SerializeField] private Transform shootPoint;
@@ -34,17 +33,17 @@ public class S_Lucifurr : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float furrballGrowthSpeed;
 
+    [Header("Dash")]
+    [SerializeField] private float dashForce;
+    private bool isDashing;
+
 
     private void Awake()
     {
         gameManager = FindAnyObjectByType<S_GameManager>();
+        rb = GetComponent<Rigidbody>();
 
         startingY = transform.position.y;
-
-        planeCenter = planeObject.transform.position;
-
-        planeSizeX = planeObject.transform.localScale.x;
-        planeSizeZ = planeObject.transform.localScale.z;
 
         hasReturn = false;
 
@@ -62,6 +61,12 @@ public class S_Lucifurr : MonoBehaviour
             GoingUp();
             print("UP");
         }
+
+        if (isDashing)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, closestPlayer.transform.position, 2 * Time.deltaTime);
+        }
+
     }
 
     private void PickRandomEvent()
@@ -100,8 +105,10 @@ public class S_Lucifurr : MonoBehaviour
             Vector3 bulletVector = new Vector3(bulletDirX, transform.position.y, bulletDirZ);
             Vector3 bulletDir = (bulletVector - transform.position).normalized;
 
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + new Vector3(0,-3,0), Quaternion.identity);
             bullet.GetComponent<Rigidbody>().velocity = bulletDir * 10f;
+            bullet.GetComponent<Bullet>().bulletDamage = lilDamage;
+
 
             angle += angleStep;
             print("PEW");
@@ -156,6 +163,12 @@ public class S_Lucifurr : MonoBehaviour
         StartCoroutine(Furrball());
     }
 
+    public void InitializeDash()
+    {
+        StartCoroutine(Dash());
+        print("Initialze");
+    }
+
     IEnumerator Brain()
     {
         while (true)
@@ -186,5 +199,16 @@ public class S_Lucifurr : MonoBehaviour
             Shoot();
             yield return new WaitForSeconds(2f);
         }
+    }
+
+    IEnumerator Dash()
+    {
+        print("Enum");
+        FindTarget();
+        transform.LookAt(closestPlayer.transform.position);
+        yield return new WaitForSeconds(1);
+        rb.velocity = (closestPlayer.transform.position - transform.position) * 6;
+        yield return new WaitForSeconds(2);
+        rb.velocity = new Vector3(0,0,0);
     }
 }

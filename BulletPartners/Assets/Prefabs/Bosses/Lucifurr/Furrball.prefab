@@ -149,6 +149,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 5
   bulletDamage: 0
+  tags:
+  - Player
 --- !u!114 &-2174120705844554917
 MonoBehaviour:
   m_ObjectHideFlags: 0

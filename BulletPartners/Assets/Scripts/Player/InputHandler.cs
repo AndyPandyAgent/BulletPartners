@@ -136,6 +136,10 @@ public class InputHandler : MonoBehaviour
     {
         if (!isFlying)
         {
+            if(Vector3.Distance(transform.position, otherPlayer.transform.position) < rubberband.breakValue)
+            {
+                SetFlying(0.06f);
+            }
             rb.AddForce(moveDirection * dodgeLength, ForceMode.Impulse);
             capsuleCollider.enabled = false;
             rubberband.DodgeLeap(playerIndex);
@@ -174,9 +178,12 @@ public class InputHandler : MonoBehaviour
 
     private void Respawn()
     {
+        Health hp = GetComponent<Health>();
+
         gameObject.SetActive(true);
         Destroy(newTombestone);
-        GetComponent<Health>().health = GetComponent<Health>().maxHealth;
+        hp.health = hp.maxHealth;
+        hp.hasDied = false;
         gameManager.playersAlive++;
     }
 

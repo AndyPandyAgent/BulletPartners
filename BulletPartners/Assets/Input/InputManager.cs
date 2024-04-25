@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine;
 using System.Linq;
-using static UnityEditor.FilePathAttribute;
 
 public class InputManager : MonoBehaviour
 {

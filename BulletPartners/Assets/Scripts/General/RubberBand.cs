@@ -25,7 +25,7 @@ public class Rubberband : MonoBehaviour
     [SerializeField] private Material normalColor;
 
     [Header("FunctionMarkers")]
-    [SerializeField] private float breakValue;
+    [SerializeField] public float breakValue;
     [SerializeField] private float breakTimer;
     private float timer;
     private bool hasBeginBreak;

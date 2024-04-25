@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     public float health;
     public float maxHealth;
     public Slider healthBar;
+    [HideInInspector] public bool hasDied;
 
     public UnityEvent deathEvent;
 
@@ -20,11 +21,14 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         health = maxHealth;
+        hasDied = false;
         if (isBoss)
         {
             GameObject bossUI = GameObject.FindGameObjectWithTag("BossUI");
             healthBar = bossUI.GetComponentInChildren<Slider>();
             bossUI.GetComponentInChildren<TextMeshProUGUI>().text = bossName;
+
+            deathEvent.AddListener(() => FindAnyObjectByType<S_GameManager>().FinishRound());
         }
     }
 
@@ -47,9 +51,10 @@ public class Health : MonoBehaviour
     {
         healthBar.value = health / maxHealth;
 
-        if(health <= 0)
+        if(health <= 0 && !hasDied)
         {
             deathEvent.Invoke();
+            hasDied = true;
         }
     }
 

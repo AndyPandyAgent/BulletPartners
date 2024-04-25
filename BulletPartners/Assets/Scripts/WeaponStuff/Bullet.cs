@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float lifeTime;
     public float bulletDamage;
+    [SerializeField] private string[] tags;
     private void Awake()
     {
         Invoke(nameof(DestroySelf), lifeTime);
@@ -17,11 +18,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player" || other.tag == "Boss")
+        foreach (var tag in tags)
         {
-            other.GetComponent<Health>().SubtractHealth(bulletDamage);
-            print(other.GetComponent<Health>().health);
-            DestroySelf();
+            if(other.tag == tag)
+            {
+                other.GetComponent<Health>().SubtractHealth(bulletDamage);
+                print(other.GetComponent<Health>().health);
+                DestroySelf();
+            }
         }
         if(other.tag == "Sheild")
         {

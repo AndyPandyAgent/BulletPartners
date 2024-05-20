@@ -67,6 +67,15 @@ public class S_Lucifurr : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, closestPlayer.transform.position, 2 * Time.deltaTime);
         }
 
+        if (isGoingDown)
+        {
+            if(Vector3.Distance(transform.position, returnPos) < 3.4)
+            {
+                Landed();
+                isGoingDown = false;
+            }
+        }
+
     }
 
     private void PickRandomEvent()
@@ -188,8 +197,6 @@ public class S_Lucifurr : MonoBehaviour
         isGoingDown = true;
         isGoingUp = false;
         hasReturn = false;
-        yield return new WaitForSeconds(0.5f);
-        Landed();
     }
 
     IEnumerator Furrball()

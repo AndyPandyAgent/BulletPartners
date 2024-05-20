@@ -2194,7 +2194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Death Escaped
+  m_text: You did it
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: faa0c5d03a7ffc54aa0ae8b3225a6fca, type: 2}
   m_sharedMaterial: {fileID: 7802711973805311739, guid: faa0c5d03a7ffc54aa0ae8b3225a6fca, type: 2}
